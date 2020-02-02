@@ -6,31 +6,24 @@ $dbName = "todoo";
 
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-if(isset($_POST['submit'])){
-$title = $_POST['title'];
-$desc = $_POST['desc'];
-$sql = "INSERT into memo (Title,Description) VALUES ('$title','$desc')";
-mysqli_query($conn,$sql);
-// $printing = "SELECT Title,Description FROM memo";
-// $result = mysqli_query($conn,$printing);
-// // if(mysqli_num_rows($result) > 0){
-//     while($row = mysqli_fetch_assoc($result)){
-// //         echo "Title : ".$row["Title"]."<br>Description :".$row["Description"]."<br><br>";
-// //         echo "Hello";
-// $tit = $row["Title"];
-// $des = $row["Description"];
-//         echo "Title : ".$tit;
-//         echo "<br>";
-//         echo "Description : ".$des;
-//         echo "<br><br>";
-//     }
-//     $result->free();
-// // }else{
-// //     echo "0 results";
-// // }
-header("Location: todo.php?Success");
-exit();
+if (isset($_POST['submit'])) {
+    $title = $_POST['title'];
+    $desc = $_POST['desc'];
+    $sql = "INSERT into memo (Title,Description) VALUES ('$title','$desc')";
+    mysqli_query($conn, $sql);
+    header("Location: todo.php?Success");
+    exit();
 }
-else{
+$rrr = "SELECT * FROM memo";
+$rr = mysqli_query($conn, $rrr);
+if (mysqli_num_rows($rr) > 0) {
+    // echo "<button class='delete' name='delete'>Delete All</button>";
+    if (isset($_POST['delete'])) {
+        $del = "DELETE FROM memo";
+        $res = mysqli_query($conn, $del);
+        // alert("All memos deleted");
+        header("Location: todo.php?MemosDeleted");
+    }
+} else {
     header("Location: todo.php?Error");
 }
